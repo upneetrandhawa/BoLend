@@ -1,0 +1,71 @@
+
+<!--Initialize the map by calling initMap javascript function-->
+<% provide :head_tags do %>
+    <script>
+    <%if !logged_in? or !valid_address? %>
+        document.addEventListener("turbolinks:load", function(){
+            initMap(<%= get_item_locations(@items).html_safe %>, null )
+        });
+    <% else %>
+        document.addEventListener("turbolinks:load", function(){
+            initMap(<%= get_item_locations(@items).html_safe %>, <%= get_location(session[:user_id]).to_json.html_safe %> )
+        });
+    <%end%>
+    </script>
+<% end %>
+
+<head>
+    <%= stylesheet_link_tag "items" %>
+</head>
+
+<!--Displays the side panel and the google map using grid layout-->
+<div class="row">
+    <div class="col-sm-3 d-none d-sm-block">
+        <div id="mySidenav" class="sidenav">
+            <% @items.each do |item| %>
+                <% if !item.taken %>
+                    <!--Do not display current user's own item -->
+                    <% if user_signed_in? and item.user_id == current_user.id %>
+                        <%next%>
+                    <%end%>
+                    <div class="item">
+                        <div class="container py-1">
+                            <div class="card">
+                                <div class="row">
+                                    <div class="d-none d-xl-block col-lg-4">
+                                        <div class="card-img-top">
+                                            <!--Display image for the item-->
+                                            <% if item.image.attached? %>
+                                                <img src="<%= url_for(item.image) %>" alt="#" class="img-thumbnail rounded mx-auto d-block">
+                                            <% else %>
+                                                <img src="<%= image_url "Placeholder.png"%>" alt="#" class="rounded img-thumbnail mx-auto d-block">
+                                            <%end%>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-lg-8">
+                                        <div class="card-block">
+                                            <div class="card-body">
+                                                <!--Display info about items such as description, category and distance frrom the user to the item-->
+                                                <h5 class="card-title"><%= link_to item.description, item_path(item), target: :_blank %></h5>
+                                                <h6 class="card-subtitle"><%= Category.get_name (item.category_id) %></h6>
+                                                <% distance_to_user = User.get_distance(current_user, get_location(item.user_id)) %>
+                                                <% if !distance_to_user.nil? %>
+                                                    <p class="card-body"><%= "< #{distance_to_user.ceil} km away" %> </p>
+                                                <% end %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>  
+                    </div>  
+                <%end%>
+            <%end%>
+        </div>
+    </div>
+    <!--Display the map-->
+    <div class="col-sm-9">
+        <div id="map">
+    </div> 
+<div>
+

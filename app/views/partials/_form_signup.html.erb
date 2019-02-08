@@ -1,0 +1,37 @@
+<div class="signup_form">
+  <% if @user.errors.any? %>
+    <ul class="signup_error">
+      <% for message_error in @user.errors.full_messages %>
+        <li><%= message_error %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <div class="text-center">
+    <%= form_for @user, url: {controller: 'users', action: 'create'}, html: {class: "form-signin"} do |f| %>
+      <img class="mb-4" src="#" alt="Photo here" width="72" height="72">
+
+      <label for="user_email" class="sr-only"> Email </label>
+      <%= f.text_field :email,  {class: "form-control", placeholder: "Email Address", required: true, autofocus: true} %>
+      <label for="user_password" class="sr-only">Password</label>
+      <%= f.password_field :password, {class: "form-control", placeholder: "Password", required: true} %>
+      <label for="user_password_confirmation" class="sr-only">Confirm Password</label>
+      <%= f.password_field :password_confirmation, {class: "form-control", placeholder: "Confirm Password", required: true} %>
+      <label for="user_first_name" class="sr-only">First Name</label>
+      <%= f.text_field :first_name, {class: "form-control", placeholder: "First Name", required: true} %>
+      <label for="user_last_name" class="sr-only">Last Name</label>
+      <%= f.text_field :last_name, {class: "form-control", placeholder: "Last Name", required: true} %>
+      <label for="user_phone_number" class="sr-only">Phone Number </label>
+      <%= f.text_field :phone_number, {class: "form-control", placeholder: "Phone Number (Optional)"} %>
+      <br>
+      <label for="user_street_addr" class="sr-only">Street Address</label>
+      <%= f.text_field :street_addr, {class: "form-control", placeholder: "Street Address"} %>
+      <label for="user_city" class="sr-only">City</label>
+      <%= f.text_field :city, {class: "form-control", placeholder: "City"} %>
+      <label for="user_postal_code" class="sr-only">Postal Code</label>
+      <%= f.text_field :postal_code, {class: "form-control", placeholder: "Postal Code"} %>
+      <%= f.submit 'Sign Up', {class: "btn btn-lg btn-primary btn-block"} %>
+
+    <% end %>
+  </div>
+</div>

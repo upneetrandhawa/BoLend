@@ -1,0 +1,24 @@
+</br>
+<h1> Modify Personal Details </h1>
+
+<div class="signup-box">
+  <%= form_for @user, url: user_path(@user), html: { method: :put} do |f| %>
+
+      <%= f.label :first_name %><br>
+      <%= f.text_field :first_name, autocomplete: "first_name" %>
+
+      <%= f.label :last_name %><br>
+      <%= f.text_field :last_name, autocomplete: "last_name" %>
+
+      <%= f.label :street_addr %><br>
+      <%= f.text_field :street_addr, autocomplete: "street_addr" %>
+
+      <%= f.label :city %><br>
+      <%= f.text_field :city, autocomplete: "city" %>
+
+      <%= f.label :postal_code %><br>
+      <%= f.text_field :postal_code, autocomplete: "postal_code" %>
+
+      <%= f.submit "Change" %>
+   <%end%>
+</div>

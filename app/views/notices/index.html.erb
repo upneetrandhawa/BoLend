@@ -1,0 +1,8 @@
+<% if logged_in? %>
+	<h1>All Notifications</h1></br>
+	<br>
+r
+
+<% else %>
+<%= "You are not logged in. Please "%><%= link_to "login", login_path%><%= " to see profile details" %>
+<% end %>

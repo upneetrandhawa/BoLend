@@ -1,0 +1,12 @@
+<style>
+	
+	.unread-notification{
+		color: red;
+	}
+</style>
+
+<span class = "unread_notification" >
+		<% notification_body = notice.body %>
+		<%= link_to notification_body, set_notification_read_path(id:notice.id) %>
+</span>
+

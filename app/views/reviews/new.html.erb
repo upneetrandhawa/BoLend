@@ -1,0 +1,11 @@
+<h4>New Review</h4>
+
+<%= form_tag user_reviews_path(params[:user_id]), :method => 'post' do %>
+  <%= text_area_tag :comments, params[:comments] %>
+   <br/>
+  <%= text_field_tag :rating, params[:rating] %>
+   <br/>
+  <%= text_area_tag :type_of_review, params[:type_of_review] %>
+  <br/>
+  <%= submit_tag "Save" %>
+<% end %>

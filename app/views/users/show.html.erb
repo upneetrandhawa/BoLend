@@ -1,0 +1,317 @@
+
+<% if current_user.id == @user.id %>
+  <br>
+  <h1>Profile Details</h1></br>
+
+  <div class="row" id="items-show">
+    <div class="col-md-6">
+
+      <img class="mb-4" src="#" alt="Photo here" width="144" height="144">
+
+    </div>
+    <div class="col-md-6">
+          <p> <strong>First Name: </strong>
+            <%= @user.first_name%> <%= link_to "   Modify", edit_user_path %>
+          </p>
+
+          <p> <strong>Last Name: </strong>
+            <%= @user.last_name%> <%= link_to "   Modify", edit_user_path %>
+          </p>
+
+          <p> <strong>Email: </strong>
+            <%= @user.email%>
+          </p>
+
+          <p> <strong>Average Rating: </strong>
+            <%if @r_avg == nil%>
+              <%= "0/5"%>
+            <%else%>
+              <%= @r_avg.to_s + "/5"%>
+            <%end%>
+          </p>
+
+          <p> <strong>Lending Rating: </strong>
+            <%if @l_r_avg == nil%>
+              <%= "0/5"%>
+            <%else%>
+              <%= @l_r_avg.to_s + "/5"%>
+            <%end%>
+          </p>
+
+          <p> <strong>Borrowing Rating: </strong>
+            <%if @b_r_avg == nil%>
+              <%= "0/5"%>
+            <%else%>
+              <%= @b_r_avg.to_s + "/5"%>
+            <%end%>
+          </p>
+
+          
+          <%if @user.street_addr == nil || @user.street_addr ==""%>
+              <%= "Please add address "%> <%= link_to "Add Address", edit_user_path%>
+          <%else%>
+            <p> <strong>Address : </strong>
+              <%= @user.street_addr%> <%= link_to "   Modify", edit_user_path %>
+            </p>
+          <%end%>
+
+          <br>
+          <button type="button" class="btn btn-sm btn-outline-secondary" style = "color: #00ff00 ; hover{background-color:#008000 ; }">
+                          <%= link_to "View Reviews", reviews_path%>
+          </button>
+
+        
+    </div>
+  </div>
+ 
+  </br>
+  </br>
+  <hr>
+  <h3>My Belongings</h3></br>
+  <ul>
+    <li><h4>Available</h4></li>
+    <%if @user.items.size > 0 %>
+      <table cellpadding="10" border=1px>
+        <tr>
+          <th>Item</th>
+          <th>Category</th>
+          <th>Date Added</th>
+          <!--<th>Number of times borrowed</th> this is more useful for other people looking for items
+          but not as useful on user's profile-->
+          <th>Details</th>
+          <th>Hide/Unhide Item</th>
+          <th>Delete Item</th>
+        </tr>
+
+        <% @user.items.each do |item| %>
+          <% if item.is_deleted == false %>
+            <tr>
+              <td style="text-align:center">
+                <% if item.image.attached? %>
+                  <img src="<%= url_for(item.image) %>" width="100" height="100" alt="#" class="img-thumbnail rounded mx-auto d-block">
+                <% else %>
+                  <img src="<%= image_url "Placeholder.png"%>" alt="#" class="rounded img-thumbnail mx-auto d-block">
+                <%end%>
+                </br>
+                <b><%= item.description %></b>
+              </td>
+              <td><%= Category.get_name(item.category_id) %></td>
+              <td><%= item.created_at.strftime("%Y-%m-%d") %></td>
+              <!--<td><% item.times_used %></td>-->
+              <td><%= link_to "more details", item_path(item), target: :_blank%></td>
+
+              <td>
+                  <% if item.taken == false %>
+
+                      <% if item.available == true %>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" style = "color: #00ff00 ; hover{background-color:#008000 ; }">
+                          <%= link_to "Hide", items_hide_item_from_listings_path(id:item.id) %>
+                        </button>
+
+                      <% elsif item.available == false %>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" style = "color: #00ff00 ; hover{background-color:#008000 ; }">
+                          <%= link_to "Un-hide", items_unhide_item_from_listings_path(id:item.id) %>
+                        </button>
+
+                      <% end %>
+
+                  <% else %>
+                    Action not available, item currently borrowed
+                  <% end %>
+              </td>
+
+              <td>
+                <% if item.taken == false %>
+                <button type="button" class="btn btn-sm btn-outline-secondary" style = "color: #00ff00 ; hover{background-color:#008000 ; }">
+                          <%= link_to "Delete", items_delete_item_from_listings_path(id:item.id) %>
+                </button>
+                <% else %>
+                    Action not available, item currently borrowed
+                <% end %>
+              </td>
+
+            </tr>
+          <% end %>
+        <%end%>
+      </table>
+
+    <%else%>
+      No items added</br>
+    <%end%>
+    </br>
+    <br>
+    <li><h4>Currently Lended</h4></li></br>
+      <table cellpadding="10" border=1px>
+        <tr>
+          <th>Item</th>
+          <th>Borrowed by</th>
+          <th>Borrower Email</th>
+          <th>Date Issued</th>
+          <th>Return date</th>
+          <th>Is Item returned?</th>
+
+        </tr>
+        <% @user.items.each do |item| %>
+          <%if item.taken == true%>
+            <tr>
+              <td style="text-align:center">
+                <% if item.image.attached? %>
+                  <img src="<%= url_for(item.image) %>" width="100" height="100" alt="#" class="img-thumbnail rounded mx-auto d-block">
+                <% else %>
+                  <img src="<%= image_url "Placeholder.png"%>" alt="#" class="rounded img-thumbnail mx-auto d-block">
+                <%end%>
+                </br>
+                <b><%= item.description %></b>
+              </td>
+              <% borrower = User.find_by_id(item.active_item.borrower_id) %>
+              <td><%= borrower.first_name %> <%= borrower.last_name %></td>
+              <td><%= borrower.email %> </td>
+              <td><%= item.active_item.start_date.strftime("%Y-%m-%d") %></td>
+              <td><%= item.active_item.due_date.strftime("%Y-%m-%d") %></td>
+              <td>
+                <button type="button" class="btn btn-sm btn-outline-secondary" style = "color: #00ff00 ; hover
+                  {background-color:#008000 ; }">
+                  <%= link_to "Yes", items_item_returned_path(id:item.id) %>
+                </button>
+              </td>
+            </tr>
+          <%end%>
+        <%end%>
+      </table>
+  </ul>
+  <br>
+  <hr>
+  <br>
+  <li><h4>My Key deadlines</h4></li></br>
+
+  <%= month_calendar events:@my_active_items do |date, a_items| %>
+    <%= date.day %>
+
+    <% a_items.each do |a_item| %>
+      <% if (a_item.lender_id == @user.id)%>
+        <div>
+          Get back <%= link_to Item.find(a_item.item_id).description, item_path(a_item.item_id) %>
+        </div>
+
+      <% else %>
+      <div>
+        Return due date for <%= link_to Item.find(a_item.item_id).description, item_path(a_item.item_id) %>
+      </div>
+      <% end %>
+    <% end %>
+  <% end %>
+  <br>
+  <hr>
+  <br>
+  
+<%else%>
+
+<br>
+<h1>Profile Details</h1></br>
+
+  <div class="row" id="items-show">
+    <div class="col-md-6">
+
+      <img class="mb-4" src="#" alt="Photo here" width="144" height="144">
+
+    </div>
+    <div class="col-md-6">
+          <p> <strong>First Name: </strong>
+            <%= @user.first_name%>
+          </p>
+
+          <p> <strong>Last Name: </strong>
+            <%= @user.last_name%>
+          </p>
+
+          <p> <strong>Email: </strong>
+            <%= @user.email%>
+          </p>
+
+          <p> <strong>Average Rating: </strong>
+            <%if @r_avg == nil%>
+              <%= "0/5"%>
+            <%else%>
+              <%= @r_avg.to_s + "/5"%>
+            <%end%>
+          </p>
+
+          <p> <strong>Lending Rating: </strong>
+            <%if @l_r_avg == nil%>
+              <%= "0/5"%>
+            <%else%>
+              <%= @l_r_avg.to_s + "/5"%>
+            <%end%>
+          </p>
+
+          <p> <strong>Borrowing Rating: </strong>
+            <%if @b_r_avg == nil%>
+              <%= "0/5"%>
+            <%else%>
+              <%= @b_r_avg.to_s + "/5"%>
+            <%end%>
+          </p>
+
+          <div id="follow">
+            <%following_exists = Connection.user_exists(current_user.id, @user.id)%>
+            <%if following_exists == 0%>
+                <%=form_for @connection, url: {controller: 'connections', action: 'create'} do |f|%>
+                <%= hidden_field_tag "connection[user_id]", "#{current_user.id}" %>
+                <%= hidden_field_tag "connection[follows]", "#{@user.id}" %>
+                <%= f.submit "Follow", {class: "btn btn-md btn-primary btn-block"} %>
+                <%end%>
+            <%else%>
+              <%=form_tag follow_path(following_exists), method: 'delete' do %>
+              <%= hidden_field_tag "connection[follows]", "#{@user.id}" %>
+              <%= submit_tag "Unfollow", class: "btn btn-md btn-primary btn-block"%>
+              <%end%>
+            <%end%>
+          </div>
+        </div>
+      </div>
+  <br>  
+  <hr>
+
+  <h3><%=@user.first_name%>'s Belongings</h3></br>
+  <ul>
+    <h4>Available for Borrow</h4>
+    <%if @user.items.size > 0 %>
+      <table cellpadding="10" border=1px>
+        <tr>
+          <th>Item</th>
+          <th>Category</th>
+          <th>Date Added</th>
+          <th>Number of times borrowed</th>
+          <th>Details</th>
+        </tr>
+        <% @user.items.each do |item| %>
+          <% if item.is_deleted == false and item.taken == false and item.available == true %>
+            <tr>
+              <td style="text-align:center">
+                <% if item.image.attached? %>
+                  <img src="<%= url_for(item.image) %>" width="100" height="100" alt="#" class="img-thumbnail rounded mx-auto d-block">
+                <% else %>
+                  <img src="<%= image_url "Placeholder.png"%>" alt="#" class="rounded img-thumbnail mx-auto d-block">
+                <%end%>
+                <br>
+                <b><%= item.description %></b>
+              </td>
+              <td><%= Category.get_name(item.category_id) %></td>
+              <td><%= item.created_at.strftime("%Y-%m-%d") %></td>
+              <%if item.times_used.nil? %>
+                <td>0</td>
+              <%else%>
+                <td><% item.times_used %></td>
+              <%end%>
+              <td><%= link_to "more details", item_path(item), target: :_blank%></td>
+            </tr>
+          <% end %>
+        <%end%>
+      </table>
+    <%else%>
+      No items added<br>
+    <%end%>
+    <br>
+    <hr>
+    <br>
+  <%end%>

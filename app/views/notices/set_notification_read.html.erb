@@ -1,0 +1,21 @@
+<% @notice = Notice.find(params[:id]) %>
+
+<% if @notice.status == 'accepted' %>
+	<%= render partial: 'partials/approve_request', locals: {request: Request.find(@notice.request_id)} %>
+
+	<script type="text/javascript">
+    window.location.replace(<%= '/requests/approve_request?id=' + @notice.request_id.to_s  %>);
+  </script>
+
+<% elsif @notice.status == 'rejected'%>
+	<%= render partial: 'partials/decline_request', locals: {request: Request.find(@notice.request_id)} %>
+	<script type="text/javascript">
+    window.location.replace(<%= '/requests/decline_request?id=' + @notice.request_id.to_s  %>);  // put your correct path in a string here
+  </script>
+  <% else %>
+	<!--<%= render template: "/requests/index" %>-->
+	<script type="text/javascript">
+    window.location.replace("/requests/");  // put your correct path in a string here
+  </script>
+<%end%>
+

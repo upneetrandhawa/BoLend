@@ -1,0 +1,121 @@
+<% if logged_in? %>
+<br>
+<h2>All Requests</h2></br>
+<br>
+
+<h3>Requests approved by me!</h3></br>
+
+	<table cellpadding="10" border=1px>
+		<tr>
+			<th>Item Name</th>
+			<th>Requester Name</th>
+			<th>Requested on</th> 
+			<th>Requested period</th> 
+			<th>Accepted on</th> 
+			<th>Due Date</th> 
+		</tr>
+
+		<% if @approved_requests %>
+		<% @approved_requests.each do |request| %>
+
+		<tr>
+			<td>
+				<%= link_to Item.find(request.item_id).description, Item.find(request.item_id) %>
+			</td>
+			<td> 
+				<%= link_to User.find(request.borrower_id).first_name + ' '+ User.find(request.borrower_id).last_name, User.find(request.borrower_id) %>
+			</td> 
+			<td> <%= request.created_at %> </td>
+			<td> <%= request.time_period %> </td>
+			<td> <%= request.responded_on %> </td>
+			<td> <%= request.due_date %> </td>
+		</tr>
+		<% end %>
+		<% end %>
+	</table>
+
+
+	<br>
+	<hr>
+	<br>
+
+	<h3>Requests recieved!</h3></br>
+
+		<table cellpadding="10" border=1px>
+			<tr>
+				<th>Item Name</th>
+				<th>Requester Name</th>
+				<th>Requested on</th> 
+				<th>Requested period</th> 
+				<th>Accept Request</th> 
+				<th>Decline Request</th> 
+			</tr>
+
+			<% if @received_requests %>
+			<% @received_requests.each do |request| %>
+
+			<tr>
+				<td>
+					<%= link_to Item.find(request.item_id).description, Item.find(request.item_id) %>
+				</td>
+				<td> 
+					<%= link_to User.find(request.borrower_id).first_name + ' '+ User.find(request.borrower_id).last_name, User.find(request.borrower_id) %>
+				</td> 
+				<td> <%= request.created_at %> </td>
+				<td> <%= request.time_period %> </td>
+				<td>
+					<button type="button" class="btn btn-sm btn-outline-secondary" style = "color: #00ff00 ; hover
+					{background-color:#008000 ; }">
+					<%= link_to "Accept", requests_approve_request_path(id:request.id) %>
+				</button>
+			</td>
+			<td>
+				<button type="button" class="btn btn-sm btn-outline-secondary" style = "color: #00ff00 ; hover
+				{background-color:#008000 ; }">
+				<%= link_to "Decline", requests_decline_request_path(id:request.id) %>
+			</button>
+		</td>
+	</tr>
+	<% end %>
+	<% end %>
+</table>
+
+
+<br>
+<hr>
+<br>
+
+<h3>Requests sent!</h3></br>
+
+	<table cellpadding="10" border=1px>
+		<tr>
+			<th>Item Name</th>
+			<th>Owner Name</th>
+			<th>Sent on</th> 
+			<th>Requested period</th> 
+			<th>Request status</th> 
+		</tr>
+
+		<% if @sent_requests.present? %>
+		<% @sent_requests.each do |request| %>
+
+		<tr>
+			<td>
+				<%= link_to Item.find(request.item_id).description, Item.find(request.item_id) %>
+			</td>
+			<td> 
+				<%= link_to User.find(request.lender_id).first_name + ' '+ User.find(request.lender_id).last_name, User.find(request.lender_id) %>
+			</td> 
+			<td> <%= request.created_at %> </td>
+			<td> <%= request.time_period %> </td>
+			<td> <%= request.status %> </td>
+		</tr>
+		<% end %>
+		<% end %>
+	</table>
+	<br>
+	<hr>
+	<br>
+	<% else %>
+	<%= "You are not logged in. Please "%><%= link_to "login", login_path%><%= " to see profile details" %>
+<% end %>

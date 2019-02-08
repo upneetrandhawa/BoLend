@@ -1,0 +1,58 @@
+
+<div id="map-btn">
+  <button type="button" class="btn btn-md btn-primary">
+    <%= link_to "View in Map", items_map_path %>
+  </button>
+</div>
+<main role="main">
+  <div class="album py-5 ">
+    <div class="container">
+      <div class="row">
+        <% @items.each do |item| %>
+        <!--Do not display current user's own item -->
+          <div class="col-md-4">  
+            <div class="card mb-4 shadow-sm">
+              <% if item.image.attached? %>
+                <%= image_tag item.image.variant(resize: "!500x400"), class: "card-img-top", alt: "#" %>
+              <% else %>
+                <img class="card-img-top" data-src="#" alt="#">
+              <% end %>
+
+              <div class="card-body">
+                <p class="card-text"><%= item.description %></p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-outline-secondary">
+                      <%= link_to "View", item_path(item) %>
+                    </button>
+                    
+                    <% if user_signed_in? %>
+                      <!-- Here will show the button 'Borrow' if the user has not requested the item-->
+                      <!-- if there exists a 'request' record where borrower_id is equal to current_user's id and request.item_id = item then we dont show Borrow button instead show the request-->
+                      <% @request_temp = Request.where(borrower_id: current_user.id, item_id: item.id, status: 'pending')%>
+                      <!--if something is present in request_temp that means the item is already requested-->
+                      <% if @request_temp.present? %>
+                        <button type="button" class="btn btn-sm btn-outline-secondary">
+                        <%= link_to "Requested!", request_path(id:@request_temp.first.id) %>
+                        </button>
+            
+                      <% end %>
+                    <%end%>
+                    
+                  </div>
+                    <% distance_to_user = User.get_distance(current_user, get_location(item.user_id)) %>
+                    <% if !distance_to_user.nil? %>
+                        <small class="text-muted"><%= "< #{distance_to_user.ceil} km away" %></small>
+                    <% end %>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</main>
+ <div class="apple_pagination"> <%= will_paginate @items %> </div>
+ 

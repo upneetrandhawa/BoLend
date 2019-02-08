@@ -1,0 +1,60 @@
+// Place all the styles related to the Sessions controller here.
+// They will automatically be included in application.scss.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+
+.login-box{
+    width: 320px;
+    height: 380x;
+    background: #343a40;
+    color: #fff;
+    position: absolute;
+    top: 20%;
+    left: 40%;
+    box-sizing: border-box;
+    padding: 10px 30px 50px 30px
+}
+
+.login-box i{
+    font-size: 50px;
+    padding-bottom: 30px;
+
+}
+
+.login-box label{
+    padding: 0;
+    margin: 0;
+    font-weight: bold;
+}
+
+.login-box input[type="email"], input[type="password"]{
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    border: none;
+    border-bottom: 1px solid #fff;
+    background: transparent;
+    outline: none;
+    height: 40px;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.login-box input[type="submit"]{
+    width: 100%;
+    height: 40px;
+    margin: 0;
+    margin-top: 30px;
+    font-weight: bold;
+    color: #fff;
+    border: none;
+    background: #c71818;
+    border-radius: 20px;
+}
+
+.login-box input[type="submit"]:hover{
+    cursor: pointer;
+    background: #ffc107;
+    color: #000;
+}

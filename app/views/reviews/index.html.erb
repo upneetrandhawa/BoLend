@@ -1,0 +1,30 @@
+<br>
+<h1>Reviews</h1>
+<br>
+<h2>Reviews given by people who borrowed items from this user</h2>
+<br>
+<% if @l_reviews.size <= 0%>
+  <p>No Reviews received yet</p>
+<%end%>
+<% @l_reviews.each do |review| %>
+  <%= "Reviewed By: " + User.find(review.reviewer_id).email %></br>
+  <%= "Rating given: " + review.rating.to_s %><br>
+  <%= "Comments: " + review.comments %><br>
+  <br>
+<%end%>
+<br>
+<hr>
+<br>
+<h2>Reviews given by people who lended items to this user</h2>
+<br>
+<% if @b_reviews.size <= 0%>
+  <p>No Reviews received yet</p>
+<%end%>
+<% @b_reviews.each do |review| %>
+  <%= "Reviewed By: " + User.find_by_id(review.reviewer_id).email %><br>
+  <%= "Rating given: " + review.rating.to_s %><br>
+  <%= "Comments: " + review.comments %><br>
+<br>
+<%end%>
+<br>
+<br>

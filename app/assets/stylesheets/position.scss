@@ -1,0 +1,255 @@
+
+/*
+Overall html styles
+*/
+
+
+
+html, body{
+  margin:0;
+  padding:0;
+  height: 100%;
+}
+
+body {
+  background-color: #E9E7E8;
+}
+
+.container {
+  max-width: 1100px;
+}
+
+.btn {
+  background-color:#343a40;
+
+}
+
+.btn a{
+  color: #fff;
+}
+
+.btn a:hover{
+  text-decoration: none;
+}
+
+#follow{
+  width: 150px;
+}
+
+#map-btn{
+  width: 100%;
+  border: none;
+  display: flex;
+  justify-content: center;
+  padding-top: 50px;
+  outline: none;
+}
+
+/*
+Site Header Styles
+*/
+#site-header {
+
+  height: 60px;
+  width: 100%;
+}
+
+.navbar-dark {
+  background-color: #343a40;
+}
+
+#site-header .container{
+  height: 100%;
+}
+
+#navbarNav .navbar-nav .nav-item a{
+  color: #fff;
+}
+#navbarNav .navbar-nav .nav-item a:hover{
+  color: rgb(107, 107, 107);
+  text-decoration: none;
+}
+
+.dropdown-background {
+  background-color: #343a40;
+}
+
+
+/*
+Site Header Search Bar Styles
+*/
+#site-header form {
+  width: 70%;
+  height: 70%;
+  display: inline-block;
+  padding-left: 80px;
+}
+
+#site-header select {
+  position: absolute;
+  width: 80px;
+  height: 32px;
+  padding: 0;
+  border-radius: 10px 5px 5px 10px
+}
+
+#site-header form #search {
+  width: 90%;
+  height: 100%;
+  margin-right: 0;
+  padding: 15px 85px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+}
+
+#site-header form button {
+  height: 100%;
+  background-color: transparent;
+  border: none;
+  margin-left: 0;
+  padding-left: 0;
+  color: #fff;
+  outline: none;
+  cursor: pointer;
+}
+
+/* Items/new styles */
+
+.new_item_form {
+  padding-top: 50px;
+}
+
+.form-control{
+  max-width: 50%;
+  margin-bottom: 10px;
+}
+
+#new-item input{
+  padding-bottom: 50px;
+}
+
+/* Items/show styles */
+#items-show{
+  background-color: transparent;
+  border: none;
+  margin-top: 50px;
+}
+
+#items-show .col-md-6 img{
+
+  width: 100%;
+  border: none;
+}
+
+#items-show .request{
+  padding-top: 5%;
+  width: 100%;
+  border: none;
+}
+
+#items-show .request select{
+  width: 100%;
+}
+
+#item-info{
+  margin-top: 50px;
+  padding: 0;
+}
+
+#item-info p{
+  padding: 0;
+  font-size: 15px;
+}
+
+/*Pagination stylesheet*/
+.apple_pagination {
+  background: transparent;
+  border: none;
+  text-align: center;
+  padding: 1em;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  cursor: default;
+}
+.apple_pagination a, .apple_pagination span {
+  padding: 0.2em 0.3em;
+}
+.apple_pagination .disabled {
+  color: #343a40;
+}
+.apple_pagination .current {
+  font-style: normal;
+  font-weight: bold;
+  background-color: #bebebe;
+  display: inline-block;
+  width: 1.4em;
+  height: 1.4em;
+  line-height: 1.5;
+  -moz-border-radius: 1em;
+  -webkit-border-radius: 1em;
+  border-radius: 1em;
+  text-shadow: rgba(255, 255, 255, 0.8) 1px 1px 1px;
+}
+.apple_pagination a {
+  text-decoration: none;
+  color: #343a40;
+}
+.apple_pagination a:hover, .apple_pagination a:focus {
+    text-decoration: underline;
+}
+
+/*
+ * Dummy devices (replace them with your own or something else entirely!)
+ */
+
+.product-device {
+  position: absolute;
+  right: 10%;
+  bottom: -30%;
+  width: 300px;
+  height: 540px;
+  background-color: #333;
+  border-radius: 21px;
+  -webkit-transform: rotate(30deg);
+  transform: rotate(30deg);
+}
+
+.product-device::before {
+  position: absolute;
+  top: 10%;
+  right: 10px;
+  bottom: 10%;
+  left: 10px;
+  content: "";
+  background-color: rgba(255, 255, 255, .1);
+  border-radius: 5px;
+}
+
+.product-device-2 {
+  top: -25%;
+  right: auto;
+  bottom: 0;
+  left: 5%;
+  background-color: #e5e5e5;
+}
+
+
+
+/*
+ * Extra utilities
+ */
+
+.flex-equal > * {
+  -ms-flex: 1;
+  flex: 1;
+}
+@media (min-width: 768px) {
+  .flex-md-equal > * {
+    -ms-flex: 1;
+    flex: 1;
+  }
+}
+
+.overflow-hidden { overflow: hidden; }

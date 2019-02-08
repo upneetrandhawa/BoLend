@@ -1,0 +1,43 @@
+
+<% if logged_in? %>
+<% @request = Request.find(params[:id]) %>
+<% @item = Item.find(@request.item_id) %>
+
+<br>
+<h3>Your borrow request for the following item has been Sent!</h2>
+</br>
+<h5>You requested this item for a time period of <%= @request.time_period %> </h5></br>
+
+<h3><%= @item.description %></h3>
+<h5><%= Category.find(@item.category_id).name %><h5>
+
+	<div class="row" id="items-show">
+		<div class="col-md-6">
+
+			<% if @item.image.attached? %>
+			<img  src="<%= url_for(@item.image) %>" alt="#">
+			<% else %>
+			<img data-src="#" alt="#">
+			<% end %>
+
+		</div>
+		<div class="col-md-6 request">
+			<div class="row" id="item-info">
+				<div class="col-md-12">
+					<p> <strong>Owner: </strong><%= link_to "#{User.find(@item.user_id).first_name}", user_path(@item.user_id)%><p>
+						<p> <strong>Description: </strong><%= @item.description %> </p>
+						<p> <strong>Category: </strong><%= Category.find(@item.category_id).name %></p>
+						<p> <strong>Avaliable Since: </strong><%= @item.created_at.strftime("%b %Y") %></p>
+						<p> <strong>Number of Times Borrowed: </strong><%= @item.times_used %></p>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+
+
+
+		<% else %>
+		<%= "You are not logged in. Please "%><%= link_to "login", login_path%><%= " to see profile details" %>
+		<% end %>

@@ -1,0 +1,97 @@
+// Place all the styles related to the items controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+html, body{
+    margin:0;
+    padding:0;
+    height: 96.5%
+}
+
+.container {
+    max-width: none;
+    height: 100%
+}
+
+#site-header .container {
+    max-width: 1100px;
+}
+
+.card {
+    height: 125px;
+}
+
+.row {
+    height: 100%;
+    padding: 0;
+}
+
+.col-sm-3 {
+    padding: 0;
+}
+
+.col-sm-9 {
+    padding: 0;
+    padding-left: 20px
+}
+
+#map {
+    height: 100%;
+}
+
+/* The side navigation menu */
+.sidenav {
+    height: 100%; /* 100% Full-height */
+    z-index: 1; 
+    top: 0;
+    left: 0;
+    background-color: rgba(252, 252, 252, 0.658); 
+    overflow-x: hidden; 
+}
+
+.card-img-top {
+    width: 120px;
+    border: none;
+}
+
+.card-title {
+    text-align: left;
+    font-size: 15px
+}
+
+.card-body {
+    font-size: 10px
+}
+
+.sidenav .item {
+    padding: 0;
+    text-decoration: none;;
+    display: block;
+    transition: 0.3s;
+}
+
+/* The navigation menu links */
+.sidenav .item a {
+    text-decoration: none;
+    font-size: 20px;
+    color: #201c1c;
+    display: block;
+    
+}
+
+.card:hover{
+    background-color: #e2e2e270;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav .item a:hover {
+    color: #000000;
+}
+
+
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}

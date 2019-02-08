@@ -1,0 +1,72 @@
+
+<% if logged_in? %>
+
+	<% if @item %>
+	<%else%>
+		<% @item = Item.find(params[:item_id]) %>
+	<%end%>
+
+	<% @request_temp = Request.where(borrower_id: current_user.id, item_id: @item.id, status: 'pending')%>
+
+	<% if @item.available == false %>
+
+		<h3> Sorry! the item is no longer available </h3>
+
+	<% elsif @item.taken == true %>
+
+		<h3> Sorry! the item just got borrowed by someone else </h3>
+
+		<%= link_to "Click here to explore more items", root_path %>
+
+	<% elsif @request_temp.present? %>
+
+		<% controller.redirect_to @request_temp.first %>
+
+	<% else %>
+
+		<br>
+		<h3>New Request</h3>
+		</br>
+
+		<div class="row" id="items-show">
+			<div class="col-md-6">
+				
+				<% if @item.image.attached? %>
+					<img  src="<%= url_for(@item.image) %>" alt="#">
+				<% else %>
+					<img data-src="#" alt="#">
+				<% end %>
+			</div>
+			<div class="col-md-6 request">
+				<% if logged_in? %>
+					<% @request_temp = Request.where(borrower_id: current_user.id, item_id: @item.id, status: 'pending')%>
+					<!--if something is present in request_temp that means the item is already requested-->
+					<% if !@request_temp.present? %>
+						<%= form_for @request, url: {controller: 'requests', action: 'create'} do |f| %>
+						<input id="request_item_id" type="hidden" name="request[item_id]" value= <%= @item.id %> />
+						<%= f.collection_select :time_period, TimePeriodCategory.get_categories, :id, :name, :prompt=>'Select Borrowing period' %>
+						<%= f.submit 'Borrow', {class: "btn btn-lg btn-primary btn-block"} %>
+					<%end%>
+					<%else%>
+						<%= link_to "Request", request_path(@request_temp[0].id) %> waiting for approval
+					<%end%>
+				<%else%>
+					<%= link_to "Sign up", new_user_registration_path %>
+					to Borrow this item
+				<%end%>
+			</div>
+		</div>
+
+		<div class="row" id="item-info">
+			<div class="col-md-12">
+				<p> <strong>Owner: </strong><%= link_to "#{User.find(@item.user_id).first_name}", user_path(@item.user_id)%><p>
+				<p> <strong>Description: </strong><%= @item.description %> </p>
+				<p> <strong>Category: </strong><%= Category.find(@item.category_id).name %></p>
+				<p> <strong>Avaliable Since: </strong><%= @item.created_at.strftime("%b %Y") %></p>
+				<p> <strong>Number of Times Borrowed: </strong><%= @item.times_used %></p>
+			<div>
+		</div>
+	<% end %>
+<% else %>
+	<%= "You are not logged in. Please "%><%= link_to "login", login_path%><%= " to see profile details" %>
+<% end %>

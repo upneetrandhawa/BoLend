@@ -1,0 +1,12 @@
+
+<div class="login-box">
+    <strong>Can't find Item you are looking for?</strong><br>
+    <p>We will send an email to your followers to ask any of your followers have the item. </p>
+    <div id="item-request">
+        <%= form_tag(controller: "item_requests", action: "create") do %>
+            <%= label_tag(:request, "Description of the item") %>
+            <%= text_field_tag(:request) %>
+            <%= submit_tag "Send"%>
+        <%end%>
+    </div>
+</div>

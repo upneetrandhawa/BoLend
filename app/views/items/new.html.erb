@@ -1,0 +1,29 @@
+<br>
+<h3> Add Item </h3>
+
+
+<div class="new_item_form">
+  <% if @item.errors.any? %>
+    <ul class="signup_error">
+      <% for message_error in @item.errors.full_messages %>
+        <li><%= message_error %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <div class="text-left">
+    <%= form_for @item, url: {controller: 'items', action: 'create'} do |f| %>
+
+      <label for="item_description" class="sr-only"> Description </label>
+      <%= f.text_field :description,  {class: "form-control", placeholder: "Description", required: true, autofocus: true} %>
+      <br>
+      <%= f.collection_select(:category_id, @categories, :id, :name, {:prompt=>'Category'}, {:class => "form-control"}) %>
+      <br>
+      <label for="item_image" class="sr-only"> Image </label>
+      <%= f.file_field :image,  {class: "form-control", placeholder: "File"} %>
+      <br>
+      <%= f.submit 'Add New Item', {class: "btn btn-primary"} %>
+
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,112 @@
+<style>
+	.dropbtn {
+  color: white; 
+  background-color: transparent;
+  border-color: #005cbf;
+  /*padding: 8px;*/
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: none;
+}
+.notification-count {
+  color: red;
+  display: block-inline;
+}
+.read-notification{
+  color: black;
+  color: #D3D3D3;
+
+}
+.unread-notification{
+  color: red;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 330px;
+  box-shadow: 0px 5px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  
+  padding: 12px 16px;
+  color: black;
+  text-decoration: none;
+  display: block;
+}
+
+.face {
+  animation: shake 1.00s cubic-bezier(.36,.07,.19,.97) both;
+  color: red;
+  animation-iteration-count: infinite;
+  -moz-animation-iteration-count: infinite;
+  -webkit-animation-iteration-count: infinite;
+  -o-animation-iteration-count: infinite;
+  display:inline-block;
+}
+
+.face:hover {
+  -webkit-animation: none;
+  -moz-animation: none;
+  -o-animation: none;
+  animation: none;
+}
+.face:hover::after {
+  -webkit-animation: none;
+  -moz-animation: none;
+  -o-animation: none;
+  animation: none;
+}
+
+@keyframes shake {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {color:#746E6C;}
+
+</style>
+<div class="dropdown">
+	<% @unread_notifications = Notice.where(:recipient_id => current_user.id, :read_at=>nil).order('created_at desc') %>
+	<button class="dropbtn"><i class="fa fa-bell"></i> 
+
+		
+			<span class="face" id="unread-notifications-count">
+				<% if @unread_notifications.length > 0 %>
+					(<%=(@unread_notifications.length)%>)
+				<% end %>
+			</span>
+		
+	</button>
+
+	<div class="dropdown-content" id="dropdown-content">
+		<%= render nav_item_requests_partial_path %>
+	</div>
+</div>

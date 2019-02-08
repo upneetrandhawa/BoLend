@@ -1,0 +1,54 @@
+<div class="navbar navbar-expand-lg navbar-dark bg-dark" id="site-header">
+  <div class="container">
+
+    <a class="navbar-brand" href=<%= root_path %>>EasyShare</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <%= form_tag items_path, :method => 'get' do %>
+      <%= select_tag "category_id", options_from_collection_for_select(Category.get_categories, "id", "name"), include_blank: "All" %>
+      <%= text_field_tag :search, params[:search] %>
+      <%= button_tag(type: "submit") do %>
+        <span class="fa fa-search"></span>
+      <% end %>
+    <% end %>
+
+     
+
+
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      
+      <ul class="navbar-nav ml-auto">
+        <% if user_signed_in? %>
+        <li class="nav-item"><%= link_to "People", users_path, :class => "nav-link" %></li>
+
+        <%= render 'partials/item_requests' %>
+
+          <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <%= current_user.first_name %>
+              </a>
+              <ul class="dropdown-menu dropdown-background">
+                <li class="dropdown-item"><%= link_to "Profile", current_user %></li>
+                <div class="dropdown-divider"></div>
+                <li class="dropdown-item"><%= link_to "Add Items", :new_item %></li>
+                <div class="dropdown-divider"></div>
+                <li class="dropdown-item"><%= link_to "Request Item", new_item_request_path %></li>
+                <div class="dropdown-divider"></div>
+                <li class="dropdown-item"><%= link_to "Borrowed Items", requests_active_and_done_path %></li>
+                <div class="dropdown-divider"></div>
+                <li class="dropdown-item"><%= link_to "My Requests", requests_path %></li>
+                <div class="dropdown-divider"></div>
+                <li class="dropdown-item"><%= link_to "Log Out", destroy_user_session_path, method: :delete %></li>
+              </ul>
+            </li>
+        <% else %>
+          <li class="nav-item"><%= link_to "Sign Up", new_user_registration_path, :class => "nav-link" %></li>
+          <li class="nav-item"><%= link_to "Log In", new_user_session_path, :class => "nav-link" %></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>

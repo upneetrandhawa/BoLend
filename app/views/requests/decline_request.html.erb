@@ -1,0 +1,44 @@
+<% if logged_in? %>
+	<% @item = Item.find(Request.find(params[:id]).item_id) %>
+	<br>
+	<h3>
+		<%=  link_to User.find(Request.find(params[:id]).borrower_id).first_name + '\'s ', User.find(Request.find(params[:id]).borrower_id)  %>
+
+		borrow request for 
+
+		<%=  link_to @item.description, @item  %>
+
+		is declined by
+
+		<%=  link_to User.find(Request.find(params[:id]).lender_id).first_name, User.find(Request.find(params[:id]).lender_id)  %>
+
+	</h3>
+
+	</br>
+
+	<div class="row" id="items-show">
+		<div class="col-md-6">
+
+			<% if @item.image.attached? %>
+			<img  src="<%= url_for(@item.image) %>" alt="#">
+			<% else %>
+			<img data-src="#" alt="#">
+			<% end %>
+
+		</div>
+		<div class="col-md-6 request">
+			<div class="row" id="item-info">
+				<div class="col-md-12">
+					<p> <strong>Category: </strong><%= Category.find(@item.category_id).name %></p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+	<hr>
+	<br>
+
+
+<% else %>
+<%= "You are not logged in. Please "%><%= link_to "login", login_path%><%= " to see profile details" %>
+<% end %>

@@ -1,0 +1,12 @@
+<% @unread_notifications = Notice.where(:recipient_id => current_user.id, :read_at=>nil).order('created_at desc') %>
+<% if @unread_notifications.length > 0 %>
+
+	<% @unread_notifications.each_with_index do |notice, index| %>
+
+
+		<%= render partial: "layouts/request", 
+		locals: { notice: notice, no: index+1 } %>
+
+
+	<% end %>
+<% end %>

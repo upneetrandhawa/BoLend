@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>EasyShare</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= action_cable_meta_tag %>
+
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDzqR67cBOCsi-boyVbAIcSyEwPdsz6upE'%>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <%= yield(:head_tags) %>
+</head>
+
+<body>
+
+  <div id="snackbar"> NEW NOTIFICATION!</div>
+
+<% if content_for?(:nav) %>
+  <%= yield(:nav) %>
+<% else %>
+  <%# default navbar %>
+  <nav>
+    <%= render "partials/menu" %>
+  </nav>
+<% end %>
+
+
+<div class="container">
+  <% if !notice.nil? %>
+	  <p class="notice"><%= notice %></p>
+  <%end%>
+  <% if !alert.nil? %>
+    <p class="alert"><%= alert %></p>
+  <%end%>
+
+  <%= yield %>
+</div>
+
+</body>
+</html>

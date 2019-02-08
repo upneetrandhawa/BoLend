@@ -1,0 +1,107 @@
+<% if logged_in? %>
+	<% @item = Item.find(request.item_id) %>
+	<br>
+	<h3>
+		<%=  link_to User.find(request.borrower_id).first_name + '\'s ', User.find(request.borrower_id)  %>
+
+		borrow request for 
+
+		<%=  link_to @item.description, @item  %>
+
+		is approved by
+
+		<%=  link_to User.find(request.lender_id).first_name, User.find(request.lender_id)  %>
+
+	</h3>
+
+	</br>
+
+	<div class="row" id="items-show">
+		<div class="col-md-6">
+
+			<% if @item.image.attached? %>
+			<img  src="<%= url_for(@item.image) %>" alt="#">
+			<% else %>
+			<img data-src="#" alt="#">
+			<% end %>
+
+		</div>
+		<div class="col-md-6 request">
+			<div class="row" id="item-info">
+				<div class="col-md-12">
+					<p> <strong>Category: </strong><%= Category.find(@item.category_id).name %></p>
+					<p> <strong>Return Date: </strong><%= request.due_date.strftime("%d %b %Y") %></p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+	<hr>
+	<div class="row" id="items-show">
+		<div class="col-md-6">
+			<h3> <strong>Next Steps: </strong> </h3>
+			<br>
+			<p> <strong>1. </strong> Communicate with each other using e-mail
+				<tab> 
+					<ul>
+						<li>
+							<strong>
+			  						<%=  link_to User.find(request.borrower_id).first_name + '\'s ', User.find(request.borrower_id)  %>
+			  				</strong> 
+
+							<ul type="square">
+
+								<li>
+									e-mail is 
+
+									<a href= <%= 'mailto:' + User.find(request.borrower_id).email%> >
+										<%= User.find(request.borrower_id).email %>
+									</a>
+								</li>
+
+								<% if User.find(request.borrower_id).phone_number.present? %>
+									<li>
+										phone number is <%= User.find(request.borrower_id).phone_number %>
+									</li>
+								<% end %>
+							</ul>
+
+						</li>
+						<li>
+							<strong>
+			  						<%=  link_to User.find(request.lender_id).first_name + '\'s ', User.find(request.lender_id)  %>
+			  				</strong> 
+
+							<ul type="square">
+
+								<li>
+									e-mail is 
+
+									<a href= <%= 'mailto:' + User.find(request.lender_id).email%> >
+										<%= User.find(request.lender_id).email %>
+									</a>
+								</li>
+
+								<% if User.find(request.lender_id).phone_number.present? %>
+									<li>
+										phone number is <%= User.find(request.lender_id).phone_number %>
+									</li>
+								<% end %>
+							</ul>
+
+						</li>
+					</ul>
+			</p>
+			<p> <strong>2. </strong> Decide on a time and place to meet!</p>
+
+		</div>
+	</div>
+
+	<br>
+	<hr>
+	<br>
+
+
+<% else %>
+<%= "You are not logged in. Please "%><%= link_to "login", login_path%><%= " to see profile details" %>
+<% end %>

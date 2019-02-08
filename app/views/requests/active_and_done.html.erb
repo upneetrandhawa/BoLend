@@ -1,0 +1,77 @@
+<% if logged_in? %>
+	<br>
+	<br>
+	<h3>Currently borrowed items by me!</h3></br>
+
+	<table cellpadding="10" border=1px>
+		<tr>
+			<th>Item Name</th>
+			<th>Owner Name</th>
+			<th>Requested on</th> 
+			<th>Requested period</th> 
+			<th>Accepted on</th> 
+			<th>Due Date</th> 
+		</tr>
+
+		<% if @active_accepted_requests %>
+			<% @active_accepted_requests.each do |request| %>
+
+			<tr>
+				<td>
+					<%= link_to Item.find(request.item_id).description, Item.find(request.item_id) %>
+				</td>
+				<td> 
+					<%= link_to User.find(request.lender_id).first_name + ' '+ User.find(request.lender_id).last_name, User.find(request.lender_id) %>
+				</td> 
+				<td> <%= request.created_at %> </td>
+				<td> <%= request.time_period %> </td>
+				<td> <%= request.responded_on %> </td>
+				<td> <%= request.due_date %> </td>
+			</tr>
+			<% end %>
+		<% end %>
+	</table>
+
+
+	<br>
+	<hr>
+	<br>
+
+	<h3>Previously borrowed items by me!</h3></br>
+
+	<table cellpadding="10" border=1px>
+		<tr>
+			<th>Item Name</th>
+			<th>Owner Name</th>
+			<th>Requested on</th> 
+			<th>Requested period</th> 
+			<th>Accepted on</th> 
+			<th>Due Date</th> 
+		</tr>
+
+		<% if @completed_accepted_requests %>
+			<% @completed_accepted_requests.each do |request| %>
+
+			<tr>
+				<td>
+					<%= link_to Item.find(request.item_id).description, Item.find(request.item_id) %>
+				</td>
+				<td> 
+					<%= link_to User.find(request.lender_id).first_name + ' '+ User.find(request.lender_id).last_name, User.find(request.lender_id) %>
+				</td> 
+				<td> <%= request.created_at %> </td>
+				<td> <%= request.time_period %> </td>
+				<td> <%= request.responded_on %> </td>
+				<td> <%= request.due_date %> </td>
+			</tr>
+			<% end %>
+		<% end %>
+	</table>
+
+	<br>
+	<hr>
+	<br>
+
+<% else %>
+<%= "You are not logged in. Please "%><%= link_to "login", login_path%><%= " to see profile details" %>
+<% end %>
